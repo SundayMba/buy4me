@@ -68,3 +68,4 @@ This is an E-Commerce Website called BUY4ME.
     3. Make your changes and commit them (git commit -m 'Add some feature').
     4. Push to the branch (git push origin feature-branch).
     5. Create a new Pull Request.
+    6. remember to always sync your forked repo with the dev branch.
