@@ -1,0 +1,15 @@
+A simple greeting API.
+---
+tags:
+  - Greeting
+parameters:
+  - name: name
+    in: path
+    type: string
+    required: true
+    description: The name to greet
+responses:
+      200:
+        description: A greeting message.
+        examples:
+          application/json: { "message": "Hello John, Welcome to the home page!" }
