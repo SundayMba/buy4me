@@ -1,4 +1,4 @@
-# api/v1/models/user_model.py
+# api/v1/models/user.py
 
 from flask_sqlalchemy import SQLAlchemy
 
