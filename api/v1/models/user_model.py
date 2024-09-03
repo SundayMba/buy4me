@@ -1,16 +1,21 @@
-# api/models/user_model.py
-# DUMMY FILE ------ DUMMY FILE
-from .. import db
+# api/v1/models/user_model.py
+
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 class User(db.Model):
-	"""User model for storing user details."""
-	__tablename__='users'
+	__tablename__ = 'users'
 
-	id=db.Column(db.Integer, primary_key=True)
-	username=db.Column(db.String(50), unique=True, nullable=False)
-	email=db.Column(db.String(100), unique=True, nullable=False)
-	password_hash=db.Column(db.String(100), nullable=False)
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(80), nullable=False)
+	email = db.Column(db.String(120), unique=True, nullable=False)
+
+	def __init__(self, name, email):
+		"""Initialize the User instance"""
+		self.name = name
+		self.email = email
 
 	def __repr__(self):
-		"""Return a string representation of the User."""
-		return f'<User {self.username}>'
+		"""String representation of the User object"""
+		return f'<User {self.name}>'
