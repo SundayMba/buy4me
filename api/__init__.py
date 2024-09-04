@@ -1,25 +1,26 @@
 # api/__init__.py
 
 from flask import Flask
-from flask_migrate import Migrate
-from api.v1.models.user import db  # Import the db instance
+from api.v1.models import db
 from api.config import config
-from flasgger import Swagger
 
-swagger = Swagger()
+def create_app(config_name):
+    """
+    Create and configure the app.
+    
+    Args:
+ 	   config_name (str): The configuration name to use.
+    
+    Returns:
+ 	   Flask: The configured Flask app.
+    """
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    db.init_app(app)
 
-def create_app(env_name):
-	"""Flask Application factory function"""
-	app = Flask(__name__)
-	app.config.from_object(config.get(env_name))
-	swagger.init_app(app)
-	db.init_app(app)
-	migrate = Migrate(app, db)
+    with app.app_context():
+ 	   # Import the routes here to register them with the app
+ 	   from api.v1.routes.main import main as main_blueprint
+ 	   app.register_blueprint(main_blueprint)
 
-	"""
-	Register Application Blueprint Below
-	"""
-	from api.v1.routes.main import main as main_blueprint
-	app.register_blueprint(main_blueprint, url_prefix="/api/v1")
-
-	return app
+    return app
