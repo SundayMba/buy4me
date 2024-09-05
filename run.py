@@ -1,11 +1,10 @@
-# run.py
-
 from api import create_app
-from api.v1.models import db
-from flask_migrate import Migrate
+import os
+from dotenv import load_dotenv
 
-app = create_app('development')
-migrate = Migrate(app, db)
+"""Load all Environment variables"""
+load_dotenv()
 
-if __name__ == "__main__":
-	app.run()
+FLASK_ENV = os.getenv("FLASK_ENV") 
+"""Application Entry Point"""
+app = create_app(FLASK_ENV)
