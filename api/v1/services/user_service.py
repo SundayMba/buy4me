@@ -3,7 +3,6 @@ from sqlalchemy.exc import IntegrityError, DataError, OperationalError
 from api import db
 from ..models.user import User
 import sqlalchemy as sa
-from flask_restful import abort
 from api.utils.error_response import error_response
 
 class UserService(Service):
