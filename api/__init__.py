@@ -1,26 +1,30 @@
-# api/__init__.py
-
 from flask import Flask
-from api.v1.models import db
-from api.config import config
+from api.extensions import swagger, db, migrate, cors
+from api.v1.routes import main_bp, auth_bp, error_bp
+from config import config
+from api.v1.models import *
 
-def create_app(config_name):
-    """
-    Create and configure the app.
+
+def create_app(env_name):
+    """Flask Application factory function
     
-    Args:
- 	   config_name (str): The configuration name to use.
-    
-    Returns:
- 	   Flask: The configured Flask app.
+    Keyword arguments:
+    argument -- config class
+    Return: Flask App instance
     """
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    app.config.from_object(config.get(env_name))
+    swagger.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
+    cors.init_app(app)
 
-    with app.app_context():
- 	   # Import the routes here to register them with the app
- 	   from api.v1.routes.main import main as main_blueprint
- 	   app.register_blueprint(main_blueprint)
+    """
+        Register Application Blueprint Below
+    """
+
+    app.register_blueprint(main_bp, url_prefix="/api/v1")
+    app.register_blueprint(auth_bp, url_prefix="/api/v1")
+    app.register_blueprint(error_bp)
 
     return app
