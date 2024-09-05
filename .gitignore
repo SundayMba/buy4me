@@ -75,6 +75,3 @@ Thumbs.db
 Dockerfile
 docker-compose.yml
 .dockerignore
-
-# Config files (optional, depending on your setup)
-config.py
