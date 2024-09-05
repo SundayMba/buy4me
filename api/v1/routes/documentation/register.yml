@@ -1,0 +1,27 @@
+User Registration
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - name: requestBody
+        in: body
+        required: true
+        requires:
+          - username
+          - email
+          - password
+        properties:
+          username:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+
+    responses:
+      404:
+        description: resource not found!
+      400:
+        description: Not a valid JSON
+      200:
+        description: Successful request

@@ -48,18 +48,43 @@ This is an E-Commerce Website called BUY4ME.
     pip install -r requirements.txt
 
 5. **Configuration**
+    
+    copy .flaskenv to .env
+    run the following command below
+    ```bash
+    cp .flaskenv .env
 
-    The application uses a .flaskenv file to manage environment variables, including specifying the entry point for the application. The .flaskenv file is included in the repository, so there's no need to create it manually.
+    define your database credentials in the .env file
+    
+6. **migration commands**
+    
+    initialize migration
+    ```bash
+    flask db init
 
+    generate a migration version
+    ```bash
+    flask db migrate -m 'any message'
 
-6. **Runing The Application**
+    upgrade to database
+    ```bash
+    flask db upgrade
+
+7. **Runing The Application**
 
     To run the application, use the following command:
 
     ```bash
     flask run
 
-7. **Contributing**
+8. **swagger API docs**
+    to access the swagger API doc
+    navigate to the following URL
+    server_url/apidocs
+
+    localhost example: http://127.0.0.1:5000/apidocs/
+
+9. **Contributing**
 
     If you would like to contribute to this project, please follow these steps:
 
