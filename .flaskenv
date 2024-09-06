@@ -1,5 +1,5 @@
 FLASK_APP=run.py
-FLASK_ENV=Matt
+FLASK_ENV=dev
 DB_USERNAME=""
 DB_PORT=""
 DB_ENGINE=""
