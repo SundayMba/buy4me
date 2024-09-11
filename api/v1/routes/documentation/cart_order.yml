@@ -1,0 +1,105 @@
+# File: documentation/cart_order.yml
+
+openapi: 3.0.0
+info:
+  title: Cart and Order Management API
+  version: 1.0.0
+tags:
+  - name: Cart
+  - name: Order
+
+paths:
+  /cart:
+    post:
+      summary: Create a new cart
+      description: Create a cart for the current user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: The ID of the user who owns the cart.
+      responses:
+        201:
+          description: Cart created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+
+  /cart/{cart_id}/add:
+    post:
+      summary: Add a product to cart
+      description: Add a product to the specified cart.
+      parameters:
+        - name: cart_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: The ID of the product to add to the cart.
+                quantity:
+                  type: integer
+                  description: The quantity of the product to add.
+      responses:
+        200:
+          description: Product added successfully.
+        400:
+          description: Bad request
+        404:
+          description: Cart or product not found
+        500:
+          description: Internal server error
+
+  /cart/{cart_id}/checkout:
+    post:
+      summary: Checkout cart and create order
+      description: Convert the cart to an order.
+      parameters:
+        - name: cart_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        201:
+          description: Order created successfully
+        404:
+          description: Cart not found or already checked out
+        500:
+          description: Internal server error
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: ID of the user associated with the cart
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: integer
+              quantity:
+                type: integer
