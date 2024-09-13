@@ -38,4 +38,8 @@ class UserService(Service):
     def update(self):
         pass
     
+<<<<<<< HEAD
 userService = UserService()
+=======
+userService = UserService()
+>>>>>>> cc2897fa456fcb43ea70282428f49afbf6a9314d

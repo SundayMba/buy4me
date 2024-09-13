@@ -19,4 +19,8 @@ class Service(ABC):
 
     @abstractmethod
     def delete(self):
+<<<<<<< HEAD
         pass
+=======
+        pass
+>>>>>>> cc2897fa456fcb43ea70282428f49afbf6a9314d
