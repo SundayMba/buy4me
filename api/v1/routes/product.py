@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flasgger.utils import swag_from
-from ..services.product_service import ProductService
+from ..services.product_service import productService
 from ..schemas.product_schema import validate_product_input
 
 product_bp = Blueprint('products', __name__)
@@ -18,7 +18,7 @@ def create_product():
 			"errors": errors
 		}), status
 	
-	product, status_code = ProductService.create_product(data)
+	product, status_code = productService.create(data)
 	return jsonify({
 		"message": "Product created successfully",
 		"status_code": status_code,
@@ -28,13 +28,13 @@ def create_product():
 @product_bp.route("/products", methods=["GET"])
 def get_products():
 	"""Get all products"""
-	products, status_code = ProductService.get_all_products()
+	products, status_code = productService.fetch_all()
 	return jsonify([product.to_dict() for product in products]), status_code
 
 @product_bp.route("/products/<int:product_id>", methods=["GET"])
 def get_product(product_id):
 	"""Get a product by ID"""
-	product, status_code = ProductService.get_product_by_id(product_id)
+	product, status_code = productService.fetch_by_id(product_id)
 	if status_code == 200:
 		return jsonify(product.to_dict()), status_code
 	else:

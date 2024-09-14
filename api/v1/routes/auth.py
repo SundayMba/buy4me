@@ -35,16 +35,17 @@ def login():
 	data = request.json
 	
 	# Input validation (can use similar method as in registration)
-	errors, status = validateInput(data, required_fields=['email', 'password'])
-	if status == 400:
-		return jsonify({
-			"message": "invalid input. please check your data.",
-			"status_code": status,
-			"errors": errors
-		}), status
+	# errors, status = validateInput(data, required_fields=['email', 'password'])
+	# if status == 400:
+	# 	return jsonify({
+	# 		"message": "invalid input. please check your data.",
+	# 		"status_code": status,
+	# 		"errors": errors
+	# 	}), status
 	
 	# Authenticate user
 	user, status_code = userService.authenticate(email=data['email'], password=data['password'])
+
 	
 	if status_code == 200:
 		return jsonify({
