@@ -3,6 +3,6 @@ FLASK_ENV=dev
 DB_USERNAME="buy4me"
 DB_PORT="3306"
 DB_ENGINE="MySQL"
-DB_PASSWORD="root"
+DB_PASSWORD="Ourfather@2020"
 DB_HOST="localhost"
 DB_NAME="MySQL"
