@@ -1,7 +1,3 @@
-Here is your updated `README.md`, reflecting the changes made to include the product management features and adjustments:
-
----
-
 # BUY4ME E-Commerce Website
 
 ## Overview
@@ -77,6 +73,14 @@ BUY4ME is an E-Commerce website that allows users to browse products, register, 
 
    - Generate a migration version:
 
+8. **swagger API docs**
+    to access the swagger API doc
+    navigate to the following URL
+    server_url/apidocs
+
+    localhost example: http://127.0.0.1:5000/apidocs/
+
+9. **Contributing**
      ```bash
      flask db migrate -m 'Initial migration'
      ```
@@ -122,7 +126,5 @@ BUY4ME is an E-Commerce website that allows users to browse products, register, 
     4. Push to the branch (`git push origin feature-branch`).
     5. Create a new Pull Request.
     6. Remember to always sync your forked repo with the `dev` branch.
-
----
 
 This update covers the new product management feature and aligns with the changes has been made in the project.

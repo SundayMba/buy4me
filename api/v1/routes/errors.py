@@ -14,7 +14,7 @@ def bad_request(error):
 def unauthorized(error):
     return jsonify({"error": "Unauthorized", "message": "Authentication is required"}), 401
 
-# Custom error handler for 404 Not Found
-@error_bp.app_errorhandler(404)
-def not_found(error):
-    return jsonify({"error": "Not Found", "message": "The requested resource was not found"}), 404
+# # Custom error handler for 404 Not Found
+# @error_bp.app_errorhandler(404)
+# def not_found(error):
+#     return jsonify({"error": "Not Found", "message": "The requested resource was not found"}), 404

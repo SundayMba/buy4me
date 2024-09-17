@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from api import db
 
 class Product(db.Model):
 	__tablename__ = 'products'

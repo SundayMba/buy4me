@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from ..services.cart_service import CartService  # Ensure the path matches your structure
-from ..schemas.cart_schema import CartSchema, CartAddProductSchema  # Correct import paths
+from ..schemas.cart_schema import CartSchema, CartAddProductSchema, CartItemSchema  # Correct import paths
 from flasgger.utils import swag_from  # For documentation integration
+from ..schemas.order_schema import OrderSchema
 
 cart_bp = Blueprint('cart', __name__)
 

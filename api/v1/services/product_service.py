@@ -1,8 +1,10 @@
-from ..models.product import Product, db
+from ..models.product import Product
+from api import db
+from .service import Service
 
-class ProductService:
-	@staticmethod
-	def create_product(data):
+class ProductService(Service):
+
+	def create(self, data):
 		product = Product(
 			name=data['name'],
 			category=data['category'],
@@ -14,14 +16,22 @@ class ProductService:
 		db.session.commit()
 		return product, 201
 
-	@staticmethod
-	def get_all_products():
+	def fetch_all(self):
 		return Product.query.all(), 200
 
-	@staticmethod
-	def get_product_by_id(product_id):
+	def fetch_by_id(self, product_id):
 		product = Product.query.get(product_id)
 		if product:
 			return product, 200
 		else:
 			return {"message": "Product not found"}, 404
+	def fetch_by_email(self):
+		pass
+
+	def delete(self, product_id):
+		pass
+
+	def update(self, product_id):
+		pass
+		
+productService = ProductService()
