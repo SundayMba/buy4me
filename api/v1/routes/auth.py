@@ -58,7 +58,8 @@ def login():
 	return jsonify({
 		"message": "user logged in successfully",
 		"status_code": status_code,
-		"token": token
+		"token": token,
+		"user": identity
 	})
 
 @auth_bp.route("/dashboard", methods=["GET"])
