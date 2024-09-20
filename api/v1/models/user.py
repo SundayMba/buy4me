@@ -10,11 +10,13 @@ class User(db.Model, BaseModel):
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
     email: so.Mapped[str] = so.mapped_column(sa.String(128), index=True, unique=True)
     password_hash: so.Mapped[str] = so.mapped_column(sa.String(256))
+    role: so.Mapped[str] = so.mapped_column(sa.String(20), default=lambda: "user")
 
     def __init__(self, **kwargs):
         self.username = kwargs.get("username")
         self.email = kwargs.get("email")
         self.password = kwargs.get("password")
+        self.role = kwargs.get("role", "user")
 
     @property
     def password(self):
@@ -36,5 +38,6 @@ class User(db.Model, BaseModel):
             "username": self.username,
             "email": self.email,
             "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat()
+            "updated_at": self.updated_at.isoformat(),
+            "role": self.role
         }

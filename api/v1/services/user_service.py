@@ -4,6 +4,9 @@ from api import db
 from ..models.user import User
 import sqlalchemy as sa
 from api.utils.error_response import error_response
+from functools import wraps
+from flask_jwt_extended import get_jwt_identity
+from flask import jsonify
 
 class UserService(Service):
     def create(self, **user_data):
@@ -37,5 +40,25 @@ class UserService(Service):
     
     def update(self):
         pass
+
+    def authenticate(self, **kwargs):
+        email, password = kwargs.values()
+        user = self.fetch_by_email(email)
+        if user and user.verify_password(password):
+            return user, 200
+        return {'message': "Invalid email or password", "status": 401}, 401
     
 userService = UserService()
+
+
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        user = get_jwt_identity()
+        if user['role'] != 'admin':
+            return jsonify({
+                "message": "Only admins can access this route.",
+                "status_code": 401
+            }), 401
+        return fn(*args, **kwargs)
+    return wrapper
