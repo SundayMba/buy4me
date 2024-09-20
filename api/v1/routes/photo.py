@@ -6,7 +6,8 @@ from datetime import datetime, timezone
 from uuid6 import uuid7
 import os
 
-@photo_bp.route("/upload-image/<category>", methods=["POST"])
+
+@photo_bp.route("/product-image/<category>", methods=["POST"])
 def upload_image(category):
     """Upload a product image
     
@@ -39,9 +40,9 @@ def upload_image(category):
     filename = secure_filename(file.filename)
 
     # Generate a unique filename using uuid
-    unique_filename = f'{uuid7().hex}_{filename}'
+    unique_filename = f'{category}_{uuid7().hex}'
+    print(unique_filename)
 
-    # save the file
     if fileService.save(file, unique_filename, category) == 400:
         return jsonify({
             'error': "invalid file category"
@@ -52,17 +53,18 @@ def upload_image(category):
 
     return jsonify({
         "message": "uploaded successfully",
-        "image_url": image_url
+        "image_url": image_url,
+        "status": 201
     }), 201
 
-@photo_bp.route("/uploads/<category>/<filename>", methods=["GET"])
+@photo_bp.route("/product-image/<category>/<filename>", methods=["GET"])
 def uploaded_file(filename, category):
     return send_from_directory(f"./images/{category}", filename)
 
 
-@photo_bp.route("/remove-image/<category>/<image_name>", methods=["DELETE"])
-def remove_image(category, image_name):
-    file_path = os.path.join("./api/images", category, image_name)
+@photo_bp.route("/product-image/<category>/<image_name>", methods=["DELETE"])
+def remove_image(category: str, image_name):
+    file_path = os.path.join("./api/images", category.lower(), image_name)
     if os.path.exists(file_path):
         os.remove(file_path)
         return jsonify({

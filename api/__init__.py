@@ -1,5 +1,5 @@
 from flask import Flask
-from api.extensions import swagger, db, migrate, cors
+from api.extensions import swagger, db, migrate, cors, jwt
 from api.v1.routes import main_bp, auth_bp, error_bp, photo_bp
 from config import config
 from api.v1.models import *
@@ -20,6 +20,7 @@ def create_app(env_name):
 	db.init_app(app)
 	migrate.init_app(app, db)
 	cors.init_app(app)
+	jwt.init_app(app)
 
 	"""
 		Register Application Blueprint Below

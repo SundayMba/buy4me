@@ -4,6 +4,7 @@
 *.pyd
 __pycache__/
 *.env
+test.py
 
 # Virtual environment
 venv/
