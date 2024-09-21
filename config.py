@@ -21,9 +21,7 @@ cloudinary.config(
     secure=True
 )
 
-
 URI = f"{DB_ENGINE}://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
 class Config:
     SWAGGER = {
         "title": "BUY4ME E-Commerce Restful API",
@@ -36,6 +34,10 @@ class Config:
 class Development(Config):
     DEBUG = True
 
+class Production(Config):
+    pass
+
 config = {
-    "dev": Development
+    "dev": Development,
+    "prod": Production
 }
