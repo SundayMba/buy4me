@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import Flask
 
 def success_response(message, data=None, status_code=200):
     """
@@ -20,7 +20,7 @@ def success_response(message, data=None, status_code=200):
     if data is not None:
         response['data'] = data
     
-    return jsonify(response), status_code
+    return Flask(response), status_code
 
 def created_response(message, data=None):
     """
