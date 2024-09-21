@@ -5,6 +5,10 @@ from ..services.file_service import fileService
 from datetime import datetime, timezone
 from uuid6 import uuid7
 import os
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+
 
 @photo_bp.route("/upload-image/<category>", methods=["POST"])
 def upload_image(category):
@@ -35,40 +39,39 @@ def upload_image(category):
             "error": "not a valid file extension"
         }), 400
     
-    # secure the original filename from malicious attacks
-    filename = secure_filename(file.filename)
 
     # Generate a unique filename using uuid
-    unique_filename = f'{uuid7().hex}_{filename}'
+    unique_filename = f'{category}_{uuid7().hex}'
 
-    # save the file
-    if fileService.save(file, unique_filename, category) == 400:
-        return jsonify({
-            'error': "invalid file category"
-        }), 400
-    
-    # generate url for the image
-    image_url = url_for("photo.uploaded_file", category=category, filename=unique_filename, _external=True)
+    # Upload an image
+    upload_result = cloudinary.uploader.upload(file, public_id=unique_filename)
+
+    # Optimize delivery by resizing and applying auto-format and auto-quality
+    optimize_url, _ = cloudinary_url(unique_filename, fetch_format="auto", quality="auto")
+    print(optimize_url)
 
     return jsonify({
         "message": "uploaded successfully",
-        "image_url": image_url
+        "image_url": optimize_url,
+        "status": 201
     }), 201
 
-@photo_bp.route("/uploads/<category>/<filename>", methods=["GET"])
+@photo_bp.route("/product-image/<category>/<filename>", methods=["GET"])
 def uploaded_file(filename, category):
     return send_from_directory(f"./images/{category}", filename)
 
 
-@photo_bp.route("/remove-image/<category>/<image_name>", methods=["DELETE"])
-def remove_image(category, image_name):
-    file_path = os.path.join("./api/images", category, image_name)
-    if os.path.exists(file_path):
-        os.remove(file_path)
-        return jsonify({
-            "message": "file deleted successfully"
-        })
+@photo_bp.route("/delete-image", methods=["DELETE"])
+def delete_image():
+    # deserialize the json object to python dict
+    payload = request.json
+    image_url = payload.get("image_url")
+    public_id = image_url.split('/')[-1]
+    print(public_id)
+    result = cloudinary.uploader.destroy(public_id=public_id)
+    if result["result"] == 'ok':
+        return jsonify({"message": "image deleted successfully"}), 200
     else:
         return jsonify({
-            "error": "file does not exists"
-        }), 400
+            "message": "no image found"
+        }), 404

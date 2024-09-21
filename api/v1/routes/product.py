@@ -29,9 +29,13 @@ def create_product():
 def get_products():
 	"""Get all products"""
 	products, status_code = productService.fetch_all()
-	return jsonify([product.to_dict() for product in products]), status_code
+	return jsonify({
+		"message": "Product retrieved successfully",
+		"status_code": status_code,
+		"data": [product.to_dict() for product in products]
+	}), status_code
 
-@product_bp.route("/products/<int:product_id>", methods=["GET"])
+@product_bp.route("/products/<product_id>", methods=["GET"])
 def get_product(product_id):
 	"""Get a product by ID"""
 	product, status_code = productService.fetch_by_id(product_id)
@@ -39,3 +43,12 @@ def get_product(product_id):
 		return jsonify(product.to_dict()), status_code
 	else:
 		return jsonify(product), status_code
+	
+@product_bp.route("/products/<product_id>", methods=["DELETE"])
+def delete_product(product_id):
+	"""Get a product by ID"""
+	message, status_code = productService.delete(product_id)
+	if status_code == 200:
+		return jsonify(message), status_code
+	else:
+		return jsonify(message), status_code

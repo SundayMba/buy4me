@@ -3,6 +3,7 @@ from marshmallow import Schema, fields, ValidationError
 class ProductSchema(Schema):
 	name = fields.Str(required=True)
 	category = fields.Str(required=True)
+	section = fields.Str(required=True, default="product")
 	image = fields.Str(required=False)
 	new_price = fields.Float(required=True)
 	old_price = fields.Float(required=False)

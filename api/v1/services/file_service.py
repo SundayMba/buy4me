@@ -17,7 +17,7 @@ class FileService(Service):
         return '.' in filename and filename.rsplit(".", 1)[1] in self.allowed_extension
 
     def save(self, file, filename: str, category: str):
-        if category not in self.categories:
+        if category.lower() not in self.categories:
             return 400
         
         file_location = self.FILE_LOCATION + category
